@@ -36,3 +36,11 @@ $ docker pull mysql:8.0 # 생략 가능
 $ docker run -p 3307:3306 -e MYSQL_ROOT_PASSWORD=qwer1234 -d mysql:8.0
 $ mysql -h 127.0.0.1 -P 3307 -u root -p
 ```
+
+- 자바 코드 설정할 때 아래와 같이 설정.
+
+```java
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection c = DriverManager.getConnection(
+    "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
+```
