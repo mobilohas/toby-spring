@@ -9,8 +9,14 @@ import org.mobilohas.bell.ch1.user.domain.User;
 
 public class UserDao {
 
+  private SimpleConnectionMaker simpleConnectionMaker;
+
+  public UserDao() {
+    simpleConnectionMaker = new SimpleConnectionMaker();
+  }
+
   public void add(User user) throws ClassNotFoundException, SQLException {
-    Connection c = getConnection();
+    Connection c = simpleConnectionMaker.makeNewConnection();
 
     PreparedStatement ps = c.prepareStatement(
         "insert into users(id, name, password) values(?,?,?)");
@@ -25,7 +31,7 @@ public class UserDao {
   }
 
   public User get(String id) throws ClassNotFoundException, SQLException {
-    Connection c = getConnection();
+    Connection c = simpleConnectionMaker.makeNewConnection();
 
     PreparedStatement ps = c.prepareStatement(
         "select * from users where id = ?");
@@ -43,12 +49,5 @@ public class UserDao {
     c.close();
 
     return user;
-  }
-
-  private static Connection getConnection() throws ClassNotFoundException, SQLException {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection c = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
-    return c;
   }
 }
