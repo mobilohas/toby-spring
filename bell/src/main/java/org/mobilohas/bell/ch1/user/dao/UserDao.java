@@ -8,7 +8,7 @@ import org.mobilohas.bell.ch1.user.domain.User;
 
 public class UserDao {
 
-  private ConnectionMaker connectionMaker;
+  private final ConnectionMaker connectionMaker;
 
   public UserDao(final ConnectionMaker connectionMaker) {
     this.connectionMaker = connectionMaker;
