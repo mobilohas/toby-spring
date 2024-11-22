@@ -1,13 +1,14 @@
 package org.mobilohas.bell.ch1.user;
 
 import java.sql.SQLException;
+import org.mobilohas.bell.ch1.user.dao.NConnectionMaker;
 import org.mobilohas.bell.ch1.user.dao.UserDao;
 import org.mobilohas.bell.ch1.user.domain.User;
 
 public class Main {
 
   public static void main(String[] args) throws SQLException, ClassNotFoundException {
-    UserDao dao = new UserDao();
+    UserDao dao = new UserDao(new NConnectionMaker());
 
     User user = new User();
     user.setId("bell");
