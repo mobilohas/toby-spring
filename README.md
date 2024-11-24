@@ -44,3 +44,9 @@ Class.forName("com.mysql.cj.jdbc.Driver");
 Connection c = DriverManager.getConnection(
     "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
 ```
+
+## Spring 구성
+
+- file-for-practice 디렉토리의 파일을 사용해 라이브러리를 설치하세요.
+- 아래 링크를 참고하시면 쉽게 진행할 수 있습니다.
+- https://tychejin.tistory.com/387 
