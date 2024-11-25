@@ -6,43 +6,47 @@ import java.sql.*;
 
 public class UserDao {
 
-  public void add(User user) throws ClassNotFoundException, SQLException {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection c = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
 
-    PreparedStatement ps = c.prepareStatement(
-        "insert into users(id, name, password) values(?,?,?)");
-    ps.setString(1, user.getId());
-    ps.setString(2, user.getName());
-    ps.setString(3, user.getPassword());
+    public void add(User user) throws ClassNotFoundException, SQLException {
+        Connection c = getConnection();
 
-    ps.executeUpdate();
+        PreparedStatement ps = c.prepareStatement(
+                "insert into users(id, name, password) values(?,?,?)");
+        ps.setString(1, user.getId());
+        ps.setString(2, user.getName());
+        ps.setString(3, user.getPassword());
 
-    ps.close();
-    c.close();
-  }
+        ps.executeUpdate();
 
-  public User get(String id) throws ClassNotFoundException, SQLException {
-    Class.forName("com.mysql.cj.jdbc.Driver");
-    Connection c = DriverManager.getConnection(
-        "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
+        ps.close();
+        c.close();
+    }
 
-    PreparedStatement ps = c.prepareStatement(
-        "select * from users where id = ?");
-    ps.setString(1, id);
+    public User get(String id) throws ClassNotFoundException, SQLException {
+        Connection c = getConnection();
 
-    ResultSet rs = ps.executeQuery();
-    rs.next();
-    User user = new User();
-    user.setId(rs.getString("id"));
-    user.setName(rs.getString("name"));
-    user.setPassword(rs.getString("password"));
+        PreparedStatement ps = c.prepareStatement(
+                "select * from users where id = ?");
+        ps.setString(1, id);
 
-    rs.close();
-    ps.close();
-    c.close();
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        User user = new User();
+        user.setId(rs.getString("id"));
+        user.setName(rs.getString("name"));
+        user.setPassword(rs.getString("password"));
 
-    return user;
-  }
+        rs.close();
+        ps.close();
+        c.close();
+
+        return user;
+    }
+
+    private Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection c = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3307/spring", "root", "qwer1234");
+        return c;
+    }
 }
