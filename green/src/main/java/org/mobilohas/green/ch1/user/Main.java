@@ -11,7 +11,7 @@ public class Main {
     UserDao dao = new UserDao();
 
     User user = new User();
-    user.setId("green2");
+    user.setId("green3");
     user.setName("홍길동");
     user.setPassword("hong1234");
 
