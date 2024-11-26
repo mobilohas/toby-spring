@@ -1,6 +1,8 @@
 package org.mobilohas.green.ch1.user.dao;
 
 import org.mobilohas.green.ch1.user.domain.User;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,8 +10,8 @@ import java.sql.SQLException;
 
 class UserDaoTest {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-        UserDao dao = new UserDao(connectionMaker);
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        UserDao dao = context.getBean("userDao", UserDao.class);
 
         User user = new User();
         user.setId("green3");
