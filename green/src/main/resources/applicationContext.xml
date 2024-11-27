@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- XML Schema의 네임스페이스를 지정하며, 표준 값인 http://www.w3.org/2001/XMLSchema-instance를 사용 -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="connectionMaker" class="org.mobilohas.green.ch1.user.dao.DConnectionMaker"/>
+    <bean id="userDao" class="org.mobilohas.green.ch1.user.dao.UserDao">
+        <property name="connectionMaker" ref="connectionMaker" />
+    </bean>
+
+</beans>
