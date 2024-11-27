@@ -4,7 +4,6 @@ import org.mobilohas.green.ch1.user.domain.User;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
@@ -14,7 +13,7 @@ class UserDaoTest {
         UserDao dao = context.getBean("userDao", UserDao.class);
 
         User user = new User();
-        user.setId("green3");
+        user.setId("green4");
         user.setName("홍길동");
         user.setPassword("hong1234");
 
