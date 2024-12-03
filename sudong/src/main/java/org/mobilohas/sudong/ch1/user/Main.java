@@ -2,17 +2,19 @@ package org.mobilohas.sudong.ch1.user;
 
 import java.sql.SQLException;
 
-import org.mobilohas.sudong.ch1.user.dao.NConnectionMaker;
+import org.mobilohas.sudong.ch1.user.dao.DaoFactory;
 import org.mobilohas.sudong.ch1.user.dao.UserDao;
 import org.mobilohas.sudong.ch1.user.domain.User;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
 
   public static void main(String[] args) throws SQLException, ClassNotFoundException {
-    UserDao dao = new UserDao(new NConnectionMaker());
+    AnnotationConfigApplicationContext ac = new AnnotationConfigApplicationContext(DaoFactory.class);
+    UserDao dao = ac.getBean("userDao", UserDao.class);
 
     User user = new User();
-    user.setId("sudong4");
+    user.setId("sudong5");
     user.setName("박지수");
     user.setPassword("1234qwer!!");
 
