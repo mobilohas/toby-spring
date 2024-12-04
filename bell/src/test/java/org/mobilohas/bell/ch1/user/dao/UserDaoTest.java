@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
+import org.junit.Before;
 import org.junit.Test;
 import org.mobilohas.bell.ch1.user.domain.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -11,11 +12,16 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 public class UserDaoTest  {
 
+  private UserDao dao;
+
+  @Before
+  public void setUp() throws Exception {
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    this.dao = context.getBean("userDao", UserDao.class);
+  }
+
   @Test
   public void addAndGet() throws SQLException, ClassNotFoundException {
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-    UserDao dao = context.getBean("userDao", UserDao.class);
 
     User user1 = new User("bell", "홍길동", "hong1234");
     User user2 = new User("lee", "이몽룡", "lee1234");
