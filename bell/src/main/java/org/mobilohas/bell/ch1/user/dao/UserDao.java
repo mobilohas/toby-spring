@@ -53,6 +53,30 @@ public class UserDao {
     return user;
   }
 
+  public int getCount() throws ClassNotFoundException, SQLException {
+    Connection c = dataSource.getConnection();
+
+    PreparedStatement ps = c.prepareStatement("select count(*) from users");
+
+    ResultSet rs = ps.executeQuery();
+    rs.next();
+    int count = rs.getInt(1);
+
+    rs.close();
+    ps.close();
+    c.close();
+    return count;
+  }
+
+  public void deleteAll() throws ClassNotFoundException, SQLException {
+    Connection c = dataSource.getConnection();
+    PreparedStatement ps = c.prepareStatement("delete from users");
+    ps.executeUpdate();
+
+    ps.close();
+    c.close();
+  }
+
   // XML 설정을 위한 Setter
   public void setDataSource(final DataSource dataSource) {
     this.dataSource = dataSource;
