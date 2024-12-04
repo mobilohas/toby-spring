@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import org.junit.Test;
 import org.mobilohas.bell.ch1.user.domain.User;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 public class UserDaoTest  {
 
@@ -43,5 +44,16 @@ public class UserDaoTest  {
     User userget3 = dao.get(user3.getId());
     assertThat(userget3.getName(), is(user3.getName()));
     assertThat(userget3.getPassword(), is(user3.getPassword()));
+  }
+
+  @Test(expected = EmptyResultDataAccessException.class)
+  public void getUserFailure() throws SQLException, ClassNotFoundException {
+    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+    UserDao dao = context.getBean("userDao", UserDao.class);
+    dao.deleteAll();
+    assertThat(dao.getCount(), is(0));
+
+    dao.get("unknown_id");
   }
 }
