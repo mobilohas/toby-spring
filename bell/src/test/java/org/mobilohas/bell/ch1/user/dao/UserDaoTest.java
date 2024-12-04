@@ -32,8 +32,16 @@ public class UserDaoTest  {
     dao.add(user3);
     assertThat(dao.getCount(), is(3));
 
-    User result = dao.get(user1.getId());
-    assertThat(result.getName(), is(user1.getName()));
-    assertThat(result.getPassword(), is(user1.getPassword()));
+    User userget1 = dao.get(user1.getId());
+    assertThat(userget1.getName(), is(user1.getName()));
+    assertThat(userget1.getPassword(), is(user1.getPassword()));
+
+    User userget2 = dao.get(user2.getId());
+    assertThat(userget2.getName(), is(user2.getName()));
+    assertThat(userget2.getPassword(), is(user2.getPassword()));
+
+    User userget3 = dao.get(user3.getId());
+    assertThat(userget3.getName(), is(user3.getName()));
+    assertThat(userget3.getPassword(), is(user3.getPassword()));
   }
 }
