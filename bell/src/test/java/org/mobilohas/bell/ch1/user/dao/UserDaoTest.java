@@ -19,10 +19,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "/applicationContext.xml")
+@DirtiesContext
 public class UserDaoTest  {
 
   @Autowired
   private UserDao dao;
+
+  @Before
+  public void setUp() throws Exception {
+    DataSource dataSource = new SingleConnectionDataSource(
+        "jdbc:mysql://localhost:3307/testdb", "root", "qwer1234", true);
+    dao.setDataSource(dataSource);
+  }
 
   @Test
   public void addAndGet() throws SQLException, ClassNotFoundException {
