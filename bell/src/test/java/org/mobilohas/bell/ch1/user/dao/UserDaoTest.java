@@ -4,25 +4,28 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.SQLException;
+import javax.sql.DataSource;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mobilohas.bell.ch1.user.domain.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "/applicationContext.xml")
 public class UserDaoTest  {
 
+  @Autowired
   private UserDao dao;
-
-  @Before
-  public void setUp() throws Exception {
-    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    this.dao = context.getBean("userDao", UserDao.class);
-  }
 
   @Test
   public void addAndGet() throws SQLException, ClassNotFoundException {
-
     User user1 = new User("bell", "홍길동", "hong1234");
     User user2 = new User("lee", "이몽룡", "lee1234");
     User user3 = new User("kim", "김삿갓", "kim1234");
