@@ -25,14 +25,11 @@ public class UserDaoTest {
     @Autowired
     private ApplicationContext context;
 
-    @Autowired
     private UserDao dao;
 
     @Before
     public void setUp() {
-        this.dao = this.context.getBean("userDao", UserDao.class);
-        System.out.println(this.context);
-        System.out.println(this);
+        this.dao = new UserDao();
 
         DataSource dataSource = new SingleConnectionDataSource(
                 "jdbc:mysql://localhost:3307/spring", "root", "qwer1234", true
