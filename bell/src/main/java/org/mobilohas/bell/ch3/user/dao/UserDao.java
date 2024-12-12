@@ -7,29 +7,27 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 import org.mobilohas.bell.ch3.user.domain.User;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 public class UserDao {
 
-  private JdbcContext jdbcContext;
+  private DataSource dataSource;
+  private JdbcTemplate jdbcTemplate;
 
   public UserDao() {
   }
 
-  public UserDao(final JdbcContext jdbcContext) {
-    this.jdbcContext = jdbcContext;
-  }
-
-  public void setJdbcContext(final JdbcContext jdbcContext) {
-    this.jdbcContext = jdbcContext;
+  public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
+    this.jdbcTemplate = jdbcTemplate;
   }
 
   public void add(User user) throws SQLException {
     final String query = "insert into users(id, name, password) values(?,?,?)";
-    jdbcContext.executeSql(query, user.getId(), user.getName(), user.getPassword());
+    jdbcTemplate.update(query, user.getId(), user.getName(), user.getPassword());
   }
 
   public void deleteAll() throws SQLException {
-    jdbcContext.executeSql("delete from users");
+    jdbcTemplate.update("delete from users");
   }
 
 //  public User get(String id) throws SQLException {
@@ -60,35 +58,12 @@ public class UserDao {
 //    return user;
 //  }
 
-//  public int getCount() throws SQLException {
-//    Connection c = null;
-//    PreparedStatement ps = null;
-//    ResultSet rs = null;
-//
-//    try {
-//      c = dataSource.getConnection();
-//      ps = c.prepareStatement("select count(*) from users");
-//      rs = ps.executeQuery();
-//      rs.next();
-//      return rs.getInt(1);
-//    } catch (SQLException e) {
-//      throw e;
-//    } finally {
-//      if (rs != null) {
-//        try {
-//          rs.close();
-//        } catch (SQLException e) {}
-//      }
-//      if (ps != null) {
-//        try {
-//          ps.close();
-//        } catch (SQLException e) {}
-//      }
-//      if (c != null) {
-//        try {
-//          c.close();
-//        } catch (SQLException e) {}
-//      }
-//    }
-//  }
+  public int getCount() throws SQLException {
+    return jdbcTemplate.query(
+        con -> con.prepareStatement("select count(*) from users"),
+        rs -> {
+          rs.next();
+          return rs.getInt(1);
+        });
+  }
 }
