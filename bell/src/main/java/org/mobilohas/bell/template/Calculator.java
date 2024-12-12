@@ -43,11 +43,11 @@ public class Calculator {
     });
   }
 
-  public Integer lineReadTemplates(final String path, int initVal, LineCallback callback) throws IOException {
+  public <T> T lineReadTemplates(final String path, T initVal, LineCallback<T> callback) throws IOException {
     BufferedReader br = null;
     try {
       br = new BufferedReader(new FileReader(path));
-      Integer res = initVal;
+      T res = initVal;
       String line = null;
       while( (line = br.readLine()) != null ){
         res = callback.doSomethingWithLine(line, res);
@@ -69,5 +69,9 @@ public class Calculator {
 
   public Integer calcMultiply(final String path) throws IOException {
     return lineReadTemplates(path, 1 , (line, res) -> res * Integer.parseInt(line));
+  }
+
+  public String concatenate(final String path) throws IOException {
+    return lineReadTemplates(path, "", (line, res) -> res + line);
   }
 }
