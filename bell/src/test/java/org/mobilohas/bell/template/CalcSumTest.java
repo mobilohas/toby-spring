@@ -4,14 +4,27 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import org.junit.Before;
 import org.junit.Test;
 
 public class CalcSumTest {
 
+  Calculator calculator;
+  String numFilepath;
+
+  @Before
+  public void setUp() {
+    calculator = new Calculator();
+    numFilepath = getClass().getResource("/numbers.txt").getPath();
+  }
+
   @Test
   public void sumOfNumbers() throws IOException {
-    Calculator calculator = new Calculator();
-    int sum = calculator.calcSum(getClass().getResource("/numbers.txt").getPath());
-    assertThat(sum, is(10));
+    assertThat(calculator.calcSum(numFilepath), is(10));
+  }
+
+  @Test
+  public void multiplyOfNumbers() throws IOException {
+    assertThat(calculator.calcMultiply(numFilepath), is(24));
   }
 }
