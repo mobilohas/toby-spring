@@ -22,8 +22,6 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(locations = "/test-applicationContext.xml")
 @DirtiesContext
 public class UserDaoTest {
-    @Autowired
-    private ApplicationContext context;
 
     private UserDao dao;
 
@@ -32,7 +30,7 @@ public class UserDaoTest {
         this.dao = new UserDao();
 
         DataSource dataSource = new SingleConnectionDataSource(
-                "jdbc:mysql://localhost:3307/spring", "root", "qwer1234", true
+                "jdbc:mysql://localhost:3307/testdb", "root", "qwer1234", true
         );
         dao.setDataSource(dataSource);
     }
