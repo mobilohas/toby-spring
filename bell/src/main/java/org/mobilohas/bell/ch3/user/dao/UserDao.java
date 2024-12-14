@@ -5,11 +5,17 @@ import java.util.List;
 import javax.sql.DataSource;
 import org.mobilohas.bell.ch3.user.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 public class UserDao {
 
   private DataSource dataSource;
   private JdbcTemplate jdbcTemplate;
+
+  private RowMapper<User> userMapper = (rs, rowNum) -> new User(
+      rs.getString("id"),
+      rs.getString("name"),
+      rs.getString("password"));
 
   public UserDao() {
   }
@@ -30,13 +36,7 @@ public class UserDao {
   public User get(String id) throws SQLException {
     return jdbcTemplate.queryForObject("select * from users where id = ?",
         new Object[]{id}, // SQL에 바인딩할 파라미터 값, 가변인자 대신 배열을 사용한다.
-        (rs, i) -> { // ResultSet 한 로우의 결과를 오브젝트에 매핑해주는 RowMapper 콜백
-          User user = new User();
-          user.setId(rs.getString("id"));
-          user.setName(rs.getString("name"));
-          user.setPassword(rs.getString("password"));
-          return user;
-        });
+        userMapper);
   }
 
   public int getCount() throws SQLException {
@@ -44,10 +44,6 @@ public class UserDao {
   }
 
   public List<User> getAll() {
-    return jdbcTemplate.query("select * from users",
-        (rs, rowNum) -> new User(
-            rs.getString("id"),
-            rs.getString("name"),
-            rs.getString("password")));
+    return jdbcTemplate.query("select * from users", userMapper);
   }
 }
