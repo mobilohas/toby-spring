@@ -13,9 +13,11 @@
 
   <bean id="userDao" class="org.mobilohas.bell.ch3.user.dao.UserDao">
     <property name="jdbcTemplate" ref="jdbcTemplate" />
+    <property name="userMapper" ref="userMapper" />
   </bean>
 
   <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
     <property name="dataSource" ref="dataSource" />
   </bean>
+  <bean class="org.mobilohas.bell.ch3.user.dao.UserMapper" />
 </beans>

@@ -9,19 +9,18 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class UserDao {
 
-  private DataSource dataSource;
   private JdbcTemplate jdbcTemplate;
-
-  private RowMapper<User> userMapper = (rs, rowNum) -> new User(
-      rs.getString("id"),
-      rs.getString("name"),
-      rs.getString("password"));
+  private RowMapper<User> userMapper;
 
   public UserDao() {
   }
 
   public void setJdbcTemplate(final JdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
+  }
+
+  public void setUserMapper(final RowMapper<User> userMapper) {
+    this.userMapper = userMapper;
   }
 
   public void add(User user) throws SQLException {
