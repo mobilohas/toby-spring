@@ -87,6 +87,13 @@ public class UserDaoTest  {
     checkSameUser(user2, users3.get(2));
   }
 
+  @Test
+  public void getAllEmpty() throws SQLException {
+    dao.deleteAll();
+    List<User> users = dao.getAll();
+    assertThat(users.size(), is(0));
+  }
+
   private void checkSameUser(final User user1, final User user2) {
     assertThat(user1.getId(), is(user2.getId()));
     assertThat(user1.getName(), is(user2.getName()));
