@@ -1,6 +1,7 @@
 package org.mobilohas.bell.ch3.user.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 import javax.sql.DataSource;
 import org.mobilohas.bell.ch3.user.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,5 +41,13 @@ public class UserDao {
 
   public int getCount() throws SQLException {
     return jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
+  }
+
+  public List<User> getAll() {
+    return jdbcTemplate.query("select * from users",
+        (rs, rowNum) -> new User(
+            rs.getString("id"),
+            rs.getString("name"),
+            rs.getString("password")));
   }
 }
