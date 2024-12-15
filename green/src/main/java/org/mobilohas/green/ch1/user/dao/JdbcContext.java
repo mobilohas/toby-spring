@@ -12,10 +12,6 @@ public class JdbcContext {
         this.dataSource = dataSource;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     public void workWithStatementStrategy(StatementStrategy stmt) throws SQLException {
         Connection c = null;
         PreparedStatement ps = null;
@@ -39,7 +35,12 @@ public class JdbcContext {
                 } catch (SQLException e) {
                 }
             }
-
         }
+    }
+
+    public void executeSql(final String sql) throws SQLException {
+        workWithStatementStrategy(
+                c -> c.prepareStatement(sql)
+        );
     }
 }
