@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mobilohas.green.ch1.user.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.annotation.DirtiesContext;
@@ -14,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -22,8 +21,6 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(locations = "/test-applicationContext.xml")
 @DirtiesContext
 public class UserDaoTest {
-    @Autowired
-    private ApplicationContext context;
 
     private UserDao dao;
 
@@ -32,7 +29,7 @@ public class UserDaoTest {
         this.dao = new UserDao();
 
         DataSource dataSource = new SingleConnectionDataSource(
-                "jdbc:mysql://localhost:3307/spring", "root", "qwer1234", true
+                "jdbc:mysql://localhost:3307/testdb", "root", "qwer1234", true
         );
         dao.setDataSource(dataSource);
     }
@@ -86,5 +83,37 @@ public class UserDaoTest {
 
         dao.add(user3);
         assertThat(dao.getCount(), is(3));
+    }
+
+    @Test
+    public void getAll() throws SQLException {
+        dao.deleteAll();
+
+        assertThat(dao.getAll().size(), is(0));
+
+        User user1 = new User("green", "홍길동", "hong1234");
+        User user2 = new User("green2", "이순신", "lee1234");
+        User user3 = new User("green3", "심청이", "sim1234");
+        dao.add(user1);
+        List<User> users1 = dao.getAll();
+        assertThat(users1.size(), is(1));
+        checkSamUser(user1, users1.get(0));
+
+        dao.add(user2);
+        List<User> users2 = dao.getAll();
+        assertThat(users2.size(), is(2));
+        checkSamUser(user2, users2.get(1));
+
+        dao.add(user3);
+        List<User> users3 = dao.getAll();
+        assertThat(users3.size(), is(3));
+        checkSamUser(user3, users3.get(2));
+    }
+
+    private void checkSamUser(User user1, User user2) {
+        assertThat(user1.getName(), is(user2.getName()));
+        assertThat(user1.getPassword(), is(user2.getPassword()));
+        assertThat(user1.getId(), is(user2.getId()));
+
     }
 }
