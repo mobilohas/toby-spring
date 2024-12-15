@@ -33,6 +33,9 @@ public class UserDaoTest {
                 "jdbc:mysql://localhost:3307/testdb", "root", "qwer1234", true
         );
         dao.setDataSource(dataSource);
+
+        JdbcContext jdbcContext = new JdbcContext(dataSource);
+        dao.setJdbcContext(jdbcContext);
     }
 
     @Test

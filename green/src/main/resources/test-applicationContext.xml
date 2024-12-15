@@ -11,7 +11,13 @@
         <property name="username" value="root"/>
         <property name="password" value="qwer1234"/>
     </bean>
+
     <bean id="userDao" class="org.mobilohas.green.ch1.user.dao.UserDao">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="jdbcContext" ref="jdbContext"/>
+    </bean>
+
+    <bean id="jdbContext" class="org.mobilohas.green.ch1.user.dao.JdbcContext">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
